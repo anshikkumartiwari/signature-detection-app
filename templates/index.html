@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Signature Detection</h1>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="imageContainer">
+            <div class="image-box">
+                <h2>Input Image</h2>
+                <img id="inputImage" style="display:none;" alt="Input Image">
+            </div>
+            <div class="image-box">
+                <h2>Processed Image</h2>
+                <img id="processedImage" style="display:none;" alt="Processed Image">
+            </div>
+        </div>
+        <div id="processingInfo"></div>
+        <div id="progress" style="display:none;">Processing...</div>
+    </div>
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const fileInput = document.querySelector('input[type="file"]');
+            const inputImage = document.getElementById('inputImage');
+            const processedImage = document.getElementById('processedImage');
+            const processingInfo = document.getElementById('processingInfo');
+            const progress = document.getElementById('progress');
 
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                inputImage.src = e.target.result;
+                inputImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            progress.style.display = 'block';
+
+            const response = await fetch('/process', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                processedImage.src = url;
+                processedImage.style.display = 'block';
+
+                const infoResponse = await fetch('/process_info');
+                if (infoResponse.ok) {
+                    const infoText = await infoResponse.text();
+                    processingInfo.innerText = infoText;
+                } else {
+                    processingInfo.innerText = 'Failed to fetch processing information';
+                }
+            } else {
+                console.error('Failed to process image');
+            }
+
+            progress.style.display = 'none';
+        };
+            document.addEventListener('DOMContentLoaded', function() {
+              const fileInput = document.querySelector('input[type="file"]');
+              const imageContainer = document.getElementById('imageContainer');
+          
+              fileInput.addEventListener('change', function() {
+                if (fileInput.files && fileInput.files.length > 0) {
+                  imageContainer.classList.add('visible');
+                } else {
+                  imageContainer.classList.remove('visible');
+                }
+              });
+            });
+          
+    </script>
+</body>
+</html>

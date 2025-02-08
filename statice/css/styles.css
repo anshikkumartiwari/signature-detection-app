@@ -1,1 +1,103 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 900px;
+}
+
+.container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+#uploadForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#uploadForm input[type="file"] {
+    flex: 1;
+}
+
+#uploadForm button {
+    background-color: #007BFF;
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#uploadForm button:hover {
+    background-color: #0056b3;
+}
+
+#imageContainer {
+    display: none;
+}
+
+#imageContainer.visible {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.image-box {
+    flex: 1 1 45%;
+    background: #fafafa;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.image-box h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.image-box img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#processingInfo {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+#progress {
+    text-align: center;
+    font-weight: bold;
+    color: #007BFF;
+}
